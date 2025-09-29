@@ -2,27 +2,27 @@ import requests
 from bs4 import BeautifulSoup
 
 
-linkki = "https://www.tuni.fi/sportuni/omasivu/?page=selection&lang=fi&type=3&area=2&week=0#&ui-state=dialog"
 
 
-def scrape_data(url):
+def scrape_data(week=1, tunnit = [i for i in range(25)]):
+    #0 = tämä viikko 1 = seuraava viikko
+    url = f"https://www.tuni.fi/sportuni/omasivu/?page=selection&lang=fi&type=3&area=2&week={week}"
+
     res = requests.get(url)
     soup = BeautifulSoup(res.text, "html.parser")
 
-    slots = []
+    all_times = []
 
     for a in soup.select("li a"):
         teksti = a.get_text(strip=True)
         linkki = a["href"]
-        slots.append((teksti, linkki))
+        if "Sulkapallo" in teksti:
+            all_times.append((teksti, linkki))
 
-    return slots
+    return all_times
 
-
-
-print(scrape_data(linkki))
-
-
+ 
+print([n[0] for n in scrape_data()])
 base_url = "https://www.tuni.fi/sportuni/omasivu/"
 
-full_url = base_url + linkki
+# full_url = base_url + linkki
