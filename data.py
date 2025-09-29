@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 
 
-def scrape_data(sopivat_viikonpäivät= ["ma, ti, ke, to, pe, la, su"], sopivat_tunnit = [i for i in range(25)], week=0): #0 = tämä viikko 1 = seuraava viikko #-> list['Ma 29.9.20:00 Sulkapallo']
+def scrape_data(sopivat_viikonpäivät= ["ma", "ti", "ke", "to", "pe", "la", "su"], sopivat_tunnit = [i for i in range(25)], week=0): #0 = tämä viikko 1 = seuraava viikko #-> list['Ma 29.9.20:00 Sulkapallo']
     
     url = f"https://www.tuni.fi/sportuni/omasivu/?page=selection&lang=fi&type=3&area=2&week={week}"
 
@@ -39,3 +39,5 @@ def scrape_data(sopivat_viikonpäivät= ["ma, ti, ke, to, pe, la, su"], sopivat_
 
 
 print(scrape_data(sopivat_viikonpäivät=["ma", "ke", "pe"], sopivat_tunnit=[12]))
+print()
+print(scrape_data())
