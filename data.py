@@ -12,7 +12,7 @@ def scrape_data(sopivat_tunnit = [i for i in range(25)], week=0)-> list['Ma 29.9
 
     date_link = []
     date_list = []
-    suitable_hours = []
+    suitable_hours = [] #sopivien tuntien lista
 
     for a in soup.select("li a"):
         teksti = a.get_text(strip=True)
