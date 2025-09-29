@@ -3,26 +3,39 @@ from bs4 import BeautifulSoup
 
 
 
-
-def scrape_data(week=1, tunnit = [i for i in range(25)]):
-    #0 = tämä viikko 1 = seuraava viikko
+def scrape_data(sopivat_tunnit = [i for i in range(25)], week=0)-> list['Ma 29.9.20:00 Sulkapallo']: #0 = tämä viikko 1 = seuraava viikko
+    
     url = f"https://www.tuni.fi/sportuni/omasivu/?page=selection&lang=fi&type=3&area=2&week={week}"
 
     res = requests.get(url)
     soup = BeautifulSoup(res.text, "html.parser")
 
-    all_times = []
+    date_link = []
+    date_list = []
+    suitable_hours = []
 
     for a in soup.select("li a"):
         teksti = a.get_text(strip=True)
         linkki = a["href"]
+
+
         if "Sulkapallo" in teksti:
-            all_times.append((teksti, linkki))
+            date_link.append((teksti, linkki))
+            date_list.append(teksti)
 
-    return all_times
+    for date in date_list:
+        viikonpäivä, aika, laji = date.split(" ")
+        päivä_nr, kuukausi_nr, kellonaika = aika.split(".")
+        tunnit, minuutit = kellonaika.split(":")
 
- 
-print([n[0] for n in scrape_data()])
-base_url = "https://www.tuni.fi/sportuni/omasivu/"
+        if int(tunnit) in sopivat_tunnit:
+            suitable_hours.append(date)
 
+
+    return suitable_hours
+
+#base_url = "https://www.tuni.fi/sportuni/omasivu/"
 # full_url = base_url + linkki
+
+
+print(scrape_data(sopivat_tunnit=[20]))
